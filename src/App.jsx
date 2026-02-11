@@ -19,7 +19,8 @@ import {
   XCircle,
   AlertCircle,
   Target,
-  BookOpen
+  BookOpen,
+  GraduationCap
 } from 'lucide-react';
 
 // ==================================================================================
@@ -140,10 +141,7 @@ const questionDatabase = {
 const STUDY_MATERIALS = [
   { id: 1, title: "The Blue Book", category: "IAF Specialized", size: "12.4 MB", type: "PDF", link: "https://drive.google.com/file/d/1YgmO1DM_w-thM4B058xvKRXccIavJvHJ/view?usp=drive_link" },
   { id: 2, title: "Virus SW-80 SOP", category: "Technical", size: "8.2 MB", type: "PDF", link: "https://drive.google.com/file/d/1d8YBkuO-LaNWhS7xohOMbLMhkQsHvQFW/view?usp=sharing" },
-  { id: 3, title: "Health & Hygiene Handbook", category: "Common Subjects", size: "5.1 MB", type: "PDF", link: "https://drive.google.com/file/d/1SgbE_ZHCsWtEZBYu_rH7xSMYoyJZs5xX/view?usp=sharing" },
-  { id: 4, title: "Aviation Medicine Capsule", category: "Technical", size: "2.8 MB", type: "PDF" },
-  { id: 5, title: "Aero-modelling Basics", category: "Hobby", size: "4.5 MB", type: "PDF" },
-  { id: 6, title: "IAF Entry Schemes 2024", category: "Career", size: "1.2 MB", type: "PDF" },
+  { id: 3, title: "Health & Hygiene Handbook", category: "Common Subjects", size: "5.1 MB", type: "PDF", link: "https://drive.google.com/file/d/1SgbE_ZHCsWtEZBYu_rH7xSMYoyJZs5xX/view?usp=sharing" }
 ];
 
 const apiKey = ""; 
@@ -204,6 +202,26 @@ const SUBJECTS = [
       "Treatment and Care of Wounds", "Treatment and Care of Fractures",
       "Introduction to Yoga Exercises"
     ]
+  },
+  {
+    id: 'b-cert',
+    title: 'B-CERTIFICATE MOCK TESTS',
+    icon: 'grad',
+    color: 'bg-amber-500',
+    description: 'COMING SOON',
+    chapters: [
+      "Full Mock Test 01", "Full Mock Test 02", "Sectional: Specialized", "Sectional: Common", "Previous Year 2023"
+    ]
+  },
+  {
+    id: 'c-cert',
+    title: 'C-CERTIFICATE MOCK TESTS',
+    icon: 'grad',
+    color: 'bg-indigo-600',
+    description: 'COMING SOON',
+    chapters: [
+      "Full Mock Test 01", "Full Mock Test 02", "Full Mock Test 03", "Sectional: Advanced Tech", "Previous Year 2024"
+    ]
   }
 ];
 
@@ -247,6 +265,7 @@ const SubjectIcon = ({ type, size = 24, className = "" }) => {
   if (type === 'iaf') return <Shield size={size} className={className} />;
   if (type === 'aircraft') return <Plane size={size} className={className} />;
   if (type === 'medic') return <Cross size={size} className={className} />;
+  if (type === 'grad') return <GraduationCap size={size} className={className} />;
   return <FileText size={size} className={className} />;
 };
 
@@ -389,7 +408,7 @@ export default function App() {
               <p className="text-slate-600 max-w-lg mx-auto font-medium">Standardized preparation portal for the All India Vayu Sainik Camp.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {SUBJECTS.map(subj => (
                 <div 
                   key={subj.id} 
@@ -400,7 +419,7 @@ export default function App() {
                     <SubjectIcon type={subj.icon} size={32} />
                   </div>
                   <h3 className="text-xl font-black text-slate-800 mb-2">{subj.title}</h3>
-                  <p className="text-slate-500 text-sm mb-6 leading-relaxed">{subj.description}</p>
+                  <p className="text-slate-500 text-sm mb-6 leading-relaxed line-clamp-2">{subj.description}</p>
                   <div className="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                     <span>{subj.chapters.length} Modules</span>
                     <ChevronRight size={16} className="text-slate-300 group-hover:translate-x-1 transition-transform" />
