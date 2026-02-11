@@ -47,7 +47,7 @@ const questionDatabase = {
         { id: 15, text: "How many commands does the Indian Air Force have in total?", options: ["Five", "Six", "Seven", "Eight"], correctAnswer: 2 },
         { id: 16, text: "Which of the following is a functional command of the IAF?", options: ["Western Air Command", "Eastern Air Command", "Training Command", "Central Air Command"], correctAnswer: 2 },
         { id: 17, text: "Headquarters of the Maintenance Command is located at", options: ["Bangalore", "Nagpur", "Shillong", "Gandhinagar"], correctAnswer: 1 },
-        { id: 18, text: "The officer commanding an Air Command is known as", options: ["Station Commander", "Air Vice Marshal", "Air Officer Commanding-in-Chief", "Chief of Air Staff"], correctAnswer: 2 },
+        { id: 18, text: "The officer commanding an Air Command is known as", options: ["Station Commander", "Air Vice Marshal", "Air Officer AOC-in-C", "Chief of Air Staff"], correctAnswer: 2 },
         { id: 19, text: "Which of the following is an operational command of the IAF?", options: ["Training Command", "Maintenance Command", "Western Air Command", "Education Branch"], correctAnswer: 2 },
         { id: 20, text: "Headquarters of the Eastern Air Command is located at", options: ["Tezpur", "Guwahati", "Shillong", "Imphal"], correctAnswer: 2 },
         { id: 21, text: "The primary role of the Indian Air Force is", options: ["Naval warfare", "Ground combat", "Air defence of the country", "Internal security"], correctAnswer: 2 },
@@ -138,9 +138,9 @@ const questionDatabase = {
 };
 
 const STUDY_MATERIALS = [
-  { id: 1, title: "The Blue Book", category: "IAF Specialized", size: "12.4 MB", type: "PDF" },
-  { id: 2, title: "Virus SW-80 SOP", category: "Technical", size: "8.2 MB", type: "PDF" },
-  { id: 3, title: "Health & Hygiene Handbook", category: "Common Subjects", size: "5.1 MB", type: "PDF" },
+  { id: 1, title: "The Blue Book", category: "IAF Specialized", size: "12.4 MB", type: "PDF", link: "https://drive.google.com/file/d/1YgmO1DM_w-thM4B058xvKRXccIavJvHJ/view?usp=drive_link" },
+  { id: 2, title: "Virus SW-80 SOP", category: "Technical", size: "8.2 MB", type: "PDF", link: "https://drive.google.com/file/d/1d8YBkuO-LaNWhS7xohOMbLMhkQsHvQFW/view?usp=sharing" },
+  { id: 3, title: "Health & Hygiene Handbook", category: "Common Subjects", size: "5.1 MB", type: "PDF", link: "https://drive.google.com/file/d/1SgbE_ZHCsWtEZBYu_rH7xSMYoyJZs5xX/view?usp=sharing" },
   { id: 4, title: "Aviation Medicine Capsule", category: "Technical", size: "2.8 MB", type: "PDF" },
   { id: 5, title: "Aero-modelling Basics", category: "Hobby", size: "4.5 MB", type: "PDF" },
   { id: 6, title: "IAF Entry Schemes 2024", category: "Career", size: "1.2 MB", type: "PDF" },
@@ -462,11 +462,17 @@ export default function App() {
                   <div className="flex items-center justify-between pt-6 border-t border-slate-50">
                     <span className="text-xs font-bold text-slate-400">{file.size}</span>
                     <button 
-                      onClick={() => alert(`Initiating secure download for ${file.title}...`)}
+                      onClick={() => {
+                        if (file.link) {
+                          window.open(file.link, '_blank');
+                        } else {
+                          alert(`Initiating secure download for ${file.title}...`);
+                        }
+                      }}
                       className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-blue-700 transition-colors"
                     >
                       <Download size={14} />
-                      DOWNLOAD
+                      {file.link ? 'OPEN LINK' : 'DOWNLOAD'}
                     </button>
                   </div>
                 </div>
