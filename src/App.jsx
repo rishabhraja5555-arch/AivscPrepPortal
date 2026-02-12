@@ -20,7 +20,8 @@ import {
   AlertCircle,
   Target,
   BookOpen,
-  GraduationCap
+  GraduationCap,
+  Activity
 } from 'lucide-react';
 
 // ==================================================================================
@@ -161,6 +162,15 @@ const shuffleArray = (array) => {
 
 const SUBJECTS = [
   {
+    id: 'live-test',
+    title: 'LIVE TEST SECTION',
+    icon: 'activity',
+    color: 'bg-rose-600',
+    description: 'Active examination sessions and real-time assessments.',
+    isLive: true,
+    chapters: ["Test 1"]
+  },
+  {
     id: 'bluebook',
     title: 'BLUE BOOK',
     icon: 'iaf',
@@ -266,6 +276,7 @@ const SubjectIcon = ({ type, size = 24, className = "" }) => {
   if (type === 'aircraft') return <Plane size={size} className={className} />;
   if (type === 'medic') return <Cross size={size} className={className} />;
   if (type === 'grad') return <GraduationCap size={size} className={className} />;
+  if (type === 'activity') return <Activity size={size} className={className} />;
   return <FileText size={size} className={className} />;
 };
 
@@ -391,6 +402,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen relative font-sans pb-20 overflow-x-hidden bg-blue-50/50">
+      <style>{`
+        @keyframes pulse-red {
+          0% { transform: scale(0.95); opacity: 0.7; }
+          50% { transform: scale(1.1); opacity: 1; }
+          100% { transform: scale(0.95); opacity: 0.7; }
+        }
+        .animate-pulse-red {
+          animation: pulse-red 1.5s infinite ease-in-out;
+        }
+      `}</style>
+
       <div className="fixed inset-0 z-0 flex pointer-events-none">
         <div className="h-full w-1/3 bg-[#BF0A30]/5"></div>
         <div className="h-full w-1/3 bg-[#003153]/5"></div>
@@ -413,8 +435,14 @@ export default function App() {
                 <div 
                   key={subj.id} 
                   onClick={() => { setSelectedSubject(subj); setView('subject'); }}
-                  className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all group"
+                  className={`bg-white p-8 rounded-3xl border ${subj.isLive ? 'border-rose-200' : 'border-slate-100'} shadow-sm cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all group relative overflow-hidden`}
                 >
+                  {subj.isLive && (
+                    <div className="absolute top-4 right-4 flex items-center gap-2">
+                       <span className="w-3 h-3 bg-rose-600 rounded-full animate-pulse-red shadow-[0_0_10px_rgba(225,29,72,0.8)]"></span>
+                       <span className="text-[10px] font-black text-rose-600 uppercase tracking-tighter">LIVE NOW</span>
+                    </div>
+                  )}
                   <div className={`${subj.color} w-16 h-16 rounded-2xl mb-6 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform`}>
                     <SubjectIcon type={subj.icon} size={32} />
                   </div>
@@ -511,28 +539,48 @@ export default function App() {
               </div>
               <div>
                 <h2 className="text-3xl font-black text-[#003153]">{selectedSubject.title}</h2>
-                <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">{selectedSubject.chapters.length} Lessons Available</p>
+                <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">{selectedSubject.isLive ? 'Active Sessions' : `${selectedSubject.chapters.length} Lessons Available`}</p>
               </div>
             </div>
-            <div className="grid gap-4">
-              {selectedSubject.chapters.map((ch, i) => {
-                const isLocked = !questionDatabase[selectedSubject.id]?.[i];
-                return (
-                  <div 
-                    key={i} 
-                    onClick={() => !isLocked && (setSelectedChapterIdx(i), setView('chapter'))}
-                    className={`p-6 rounded-2xl border-2 flex justify-between items-center transition-all
-                      ${isLocked ? 'bg-slate-50 opacity-50 cursor-not-allowed border-slate-100' : 'bg-white cursor-pointer border-white hover:border-blue-500 hover:shadow-lg'}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className={`w-10 h-10 rounded-xl flex items-center justify-center font-black ${isLocked ? 'bg-slate-200 text-slate-400' : 'bg-blue-100 text-blue-600'}`}>{i+1}</span>
-                      <p className="font-bold text-slate-800">{ch}</p>
-                    </div>
-                    {isLocked ? <Lock size={18} className="text-slate-300" /> : <ChevronRight size={18} className="text-blue-300" />}
+            
+            {selectedSubject.id === 'live-test' ? (
+              <div className="grid gap-6">
+                <div className="bg-white p-10 rounded-[2.5rem] border-2 border-rose-100 shadow-xl flex flex-col items-center text-center">
+                  <div className="w-20 h-20 bg-rose-50 rounded-3xl flex items-center justify-center text-rose-600 mb-6">
+                    <Target size={40} />
                   </div>
-                );
-              })}
-            </div>
+                  <h3 className="text-2xl font-black text-slate-800 mb-2">Test 1 - Comprehensive Evaluation</h3>
+                  <p className="text-slate-500 max-w-md mb-8">This is a timed assessment. Ensure you have a stable connection and are in a quiet environment before starting.</p>
+                  <button 
+                    onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLScZsImAYduiI4XPHUhb-BJxk5FzgBNo5ZkCslDiABsO1tUICQ/viewform?usp=dialog', '_blank')}
+                    className="bg-rose-600 hover:bg-rose-700 text-white px-12 py-5 rounded-2xl font-black flex items-center gap-3 transition-all hover:scale-105 shadow-xl shadow-rose-200"
+                  >
+                    START TEST 1
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid gap-4">
+                {selectedSubject.chapters.map((ch, i) => {
+                  const isLocked = !questionDatabase[selectedSubject.id]?.[i];
+                  return (
+                    <div 
+                      key={i} 
+                      onClick={() => !isLocked && (setSelectedChapterIdx(i), setView('chapter'))}
+                      className={`p-6 rounded-2xl border-2 flex justify-between items-center transition-all
+                        ${isLocked ? 'bg-slate-50 opacity-50 cursor-not-allowed border-slate-100' : 'bg-white cursor-pointer border-white hover:border-blue-500 hover:shadow-lg'}`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className={`w-10 h-10 rounded-xl flex items-center justify-center font-black ${isLocked ? 'bg-slate-200 text-slate-400' : 'bg-blue-100 text-blue-600'}`}>{i+1}</span>
+                        <p className="font-bold text-slate-800">{ch}</p>
+                      </div>
+                      {isLocked ? <Lock size={18} className="text-slate-300" /> : <ChevronRight size={18} className="text-blue-300" />}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
