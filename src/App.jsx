@@ -264,7 +264,7 @@ const Header = ({ goHome }) => (
           <h1 className="text-xl md:text-2xl font-black tracking-tight leading-none mb-1 text-[#003153]">
             <span className="text-[#BF0A30]">AIVSC</span> PREP PORTAL
           </h1>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Flt Cdt Rishabh Raja</p>
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Developed By Flt Cdt Rishabh Raja</p>
         </div>
       </div>
     </div>
