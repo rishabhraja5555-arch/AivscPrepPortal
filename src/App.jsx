@@ -552,7 +552,7 @@ export default function App() {
                   <h3 className="text-2xl font-black text-slate-800 mb-2">Test 1 - Comprehensive Evaluation</h3>
                   <p className="text-slate-500 max-w-md mb-8">This is a timed assessment. Ensure you have a stable connection and are in a quiet environment before starting.</p>
                   <button 
-                    onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLScZsImAYduiI4XPHUhb-BJxk5FzgBNo5ZkCslDiABsO1tUICQ/viewform?usp=dialog', '_blank')}
+                    onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSf_5wZ7bnvDDZTu4NoyLulpI7ayJoNSiVv8X1onsGoh8Kj_kA/viewform', '_blank')}
                     className="bg-rose-600 hover:bg-rose-700 text-white px-12 py-5 rounded-2xl font-black flex items-center gap-3 transition-all hover:scale-105 shadow-xl shadow-rose-200"
                   >
                     START TEST 1
